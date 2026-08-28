@@ -2,6 +2,7 @@ import { AlertBanner } from "../../../components/ui/AlertBanner";
 import { Button } from "../../../components/ui/Button";
 import { ConfirmDialog } from "../../../components/ui/ConfirmDialog";
 import { PageHeader } from "../../../components/ui/PageHeader";
+import { Pager } from "../../../components/ui/Pager";
 import { EmptyState, ErrorState, LoadingState } from "../../../components/ui/StateViews";
 import { StatusBadge } from "../../../components/ui/StatusBadge";
 import { Toast } from "../../../components/ui/Toast";
@@ -16,6 +17,10 @@ export function BillsPage() {
     isLoading,
     error,
     reload,
+    page,
+    setPage,
+    pageSize,
+    totalCount,
     isConfirmOpen,
     isMarking,
     confirmTitle,
@@ -77,6 +82,7 @@ export function BillsPage() {
           ))}
         </div>
       )}
+      <Pager page={page} pageSize={pageSize} totalCount={totalCount} onPageChange={setPage} />
       <ConfirmDialog
         open={isConfirmOpen}
         title={confirmTitle}

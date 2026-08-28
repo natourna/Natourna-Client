@@ -3,7 +3,7 @@ import styles from "./FilterChips.module.css";
 export interface FilterChipOption<T extends string> {
   value: T;
   label: string;
-  count: number;
+  count?: number;
 }
 
 interface FilterChipsProps<T extends string> {
@@ -23,7 +23,8 @@ export function FilterChips<T extends string>({ options, value, onChange }: Filt
           aria-pressed={option.value === value}
           onClick={() => onChange(option.value)}
         >
-          {option.label} · {option.count}
+          {option.label}
+          {option.count !== undefined ? ` · ${option.count}` : ""}
         </button>
       ))}
     </div>

@@ -3,6 +3,7 @@ import { Button } from "../../../components/ui/Button";
 import { ConfirmDialog } from "../../../components/ui/ConfirmDialog";
 import { FilterChips, type FilterChipOption } from "../../../components/ui/FilterChips";
 import { PageHeader } from "../../../components/ui/PageHeader";
+import { Pager } from "../../../components/ui/Pager";
 import { EmptyState, ErrorState, LoadingState } from "../../../components/ui/StateViews";
 import { StatusBadge } from "../../../components/ui/StatusBadge";
 import { Toast } from "../../../components/ui/Toast";
@@ -18,8 +19,11 @@ export function PaymentsPage() {
     reload,
     filter,
     setFilter,
-    filteredRows,
-    countFor,
+    rows,
+    page,
+    setPage,
+    pageSize,
+    totalCount,
     isConfirmOpen,
     isMarking,
     confirmTitle,
@@ -36,10 +40,10 @@ export function PaymentsPage() {
   if (error) return <ErrorState message={error} onRetry={reload} />;
 
   const chipOptions: FilterChipOption<PaymentFilter>[] = [
-    { value: "all", label: "All", count: countFor("all") },
-    { value: "due", label: "Not paid", count: countFor("due") },
-    { value: "paid", label: "Paid", count: countFor("paid") },
-    { value: "overdue", label: "Overdue", count: countFor("overdue") },
+    { value: "all", label: "All" },
+    { value: "due", label: "Not paid" },
+    { value: "paid", label: "Paid" },
+    { value: "overdue", label: "Overdue" },
   ];
 
   return (
@@ -64,7 +68,7 @@ export function PaymentsPage() {
       <Button variant="secondary" fullWidth className={styles.mobileOnly} to="/cycles/new">
         Set up recurring dues
       </Button>
-      {filteredRows.length === 0 ? (
+      {rows.length === 0 ? (
         <EmptyState title="No payments here" subtitle="Try another filter." />
       ) : (
         <div className={styles.list}>
@@ -75,7 +79,7 @@ export function PaymentsPage() {
             <span>Status</span>
             <span />
           </div>
-          {filteredRows.map((row) => (
+          {rows.map((row) => (
             <div key={row.payment.id} className={styles.row}>
               <span className={styles.aptCell}>{row.apartmentLabel}</span>
               <span className={styles.info}>
@@ -109,6 +113,7 @@ export function PaymentsPage() {
           ))}
         </div>
       )}
+      <Pager page={page} pageSize={pageSize} totalCount={totalCount} onPageChange={setPage} />
       <ConfirmDialog
         open={isConfirmOpen}
         title={confirmTitle}

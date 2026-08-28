@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Button } from "../../../components/ui/Button";
 import { ChevronRightIcon } from "../../../components/ui/Icons";
 import { PageHeader } from "../../../components/ui/PageHeader";
+import { Pager } from "../../../components/ui/Pager";
 import { SearchInput } from "../../../components/ui/SearchInput";
 import { EmptyState, ErrorState, LoadingState } from "../../../components/ui/StateViews";
 import { StatusBadge } from "../../../components/ui/StatusBadge";
@@ -19,6 +20,10 @@ export function ApartmentsPage() {
     search,
     setSearch,
     groups,
+    page,
+    setPage,
+    pageSize,
+    totalCount,
     apartmentCount,
     buildingCount,
   } = useApartments();
@@ -87,6 +92,7 @@ export function ApartmentsPage() {
           ))}
         </div>
       )}
+      <Pager page={page} pageSize={pageSize} totalCount={totalCount} onPageChange={setPage} />
     </div>
   );
 }

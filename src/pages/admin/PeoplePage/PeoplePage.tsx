@@ -4,7 +4,9 @@ import { Button } from "../../../components/ui/Button";
 import { ConfirmDialog } from "../../../components/ui/ConfirmDialog";
 import { CheckCircleIcon } from "../../../components/ui/Icons";
 import { PageHeader } from "../../../components/ui/PageHeader";
+import { Pager } from "../../../components/ui/Pager";
 import { RolePill } from "../../../components/ui/RolePill";
+import { SearchInput } from "../../../components/ui/SearchInput";
 import { EmptyState, ErrorState, LoadingState } from "../../../components/ui/StateViews";
 import { useAuth } from "../../../hooks/useAuth";
 import { useUsers } from "../../../hooks/useUsers";
@@ -17,6 +19,12 @@ export function PeoplePage() {
     isLoading,
     error,
     reload,
+    search,
+    setSearch,
+    page,
+    setPage,
+    pageSize,
+    totalCount,
     isConfirmOpen,
     isSaving,
     confirmTitle,
@@ -41,6 +49,7 @@ export function PeoplePage() {
           </Button>
         }
       />
+      <SearchInput label="Search by email or phone" value={search} onChange={setSearch} />
       {actionError ? <AlertBanner variant="danger" title={actionError} /> : null}
       {rows.length === 0 ? (
         <EmptyState title="No people yet" subtitle="Add a user to get started." />
@@ -86,6 +95,7 @@ export function PeoplePage() {
           })}
         </div>
       )}
+      <Pager page={page} pageSize={pageSize} totalCount={totalCount} onPageChange={setPage} />
       <div className={styles.hint}>Tap a person to deactivate or reactivate them.</div>
       <ConfirmDialog
         open={isConfirmOpen}
