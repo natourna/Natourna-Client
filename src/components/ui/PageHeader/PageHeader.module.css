@@ -1,0 +1,50 @@
+.header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.text {
+  flex: 1;
+  min-width: 0;
+}
+
+.eyebrow {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.title {
+  font-size: 27px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+  margin-top: 2px;
+}
+
+.subtitle {
+  font-size: 16px;
+  color: var(--color-text-secondary);
+  margin-top: 2px;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+@media (min-width: 1024px) {
+  .title {
+    font-size: 30px;
+    letter-spacing: -0.4px;
+  }
+
+  .subtitle {
+    font-size: 17px;
+    margin-top: 4px;
+  }
+}

@@ -1,0 +1,41 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: var(--control-height-input);
+  background: var(--color-surface);
+  border: 2px solid var(--color-border-input);
+  border-radius: var(--radius-button);
+  padding: 0 16px;
+}
+
+.wrapper:focus-within {
+  border-color: var(--color-primary);
+}
+
+.icon {
+  color: var(--color-text-placeholder);
+  flex-shrink: 0;
+}
+
+.hiddenLabel {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  font-size: 18px;
+  color: var(--color-ink);
+}
+
+.input:focus {
+  outline: none;
+}
