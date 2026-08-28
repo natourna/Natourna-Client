@@ -27,6 +27,21 @@
   border-color: var(--color-primary);
 }
 
+.inputError {
+  border-color: var(--color-danger);
+}
+
+.inputError:focus {
+  border-color: var(--color-danger-dark);
+}
+
+.errorText {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-danger);
+}
+
 .dateWrapper {
   position: relative;
   display: flex;
