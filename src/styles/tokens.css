@@ -1,0 +1,62 @@
+:root {
+  --color-primary: #1e6f5c;
+  --color-primary-dark: #175a4a;
+  --color-primary-soft: #e3f0eb;
+  --color-primary-soft-border: #bcd9cf;
+  --color-accent: #57a08b;
+
+  --color-ink: #22302c;
+  --color-text-secondary: #5b6763;
+  --color-text-label: #4a544f;
+  --color-text-muted: #8a857a;
+  --color-tab-inactive: #5f6b66;
+  --color-text-placeholder: #9a958a;
+
+  --color-bg: #faf9f6;
+  --color-surface: #ffffff;
+  --color-surface-subtle: #f4f2ec;
+  --color-border: #e5e2da;
+  --color-border-card: #e7e4dc;
+  --color-border-input: #d9d5ca;
+  --color-divider: #eeebe3;
+  --color-divider-soft: #f4f2ec;
+  --color-track: #eeebe3;
+  --color-neutral-chip: #c9c4b8;
+
+  --color-warning: #7a4d00;
+  --color-warning-bg: #faf0dd;
+  --color-warning-border: #f0e4c8;
+
+  --color-danger: #b3261e;
+  --color-danger-dark: #8f1d16;
+  --color-danger-bg: #fdecea;
+  --color-danger-border: #f3c8c4;
+
+  --color-inverse: #ffffff;
+  --color-overlay: rgba(20, 28, 25, 0.45);
+
+  --font-family: "Public Sans", -apple-system, "Segoe UI", sans-serif;
+  --font-size-base: 18px;
+
+  --radius-pill: 999px;
+  --radius-hero: 24px;
+  --radius-card-lg: 22px;
+  --radius-card: 20px;
+  --radius-row: 18px;
+  --radius-button: 16px;
+  --radius-input: 14px;
+  --radius-chip: 12px;
+
+  --control-height-lg: 62px;
+  --control-height-md: 56px;
+  --control-height-input: 58px;
+  --control-height-sm: 48px;
+
+  --space-page: 20px;
+  --space-page-desktop: 44px;
+
+  --shadow-dialog: 0 24px 48px -32px rgba(25, 35, 30, 0.4);
+
+  --sidebar-width: 248px;
+  --tabbar-height: 92px;
+}
