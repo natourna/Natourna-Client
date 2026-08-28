@@ -1,0 +1,53 @@
+.banner {
+  border-radius: var(--radius-row);
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  text-decoration: none;
+}
+
+.danger {
+  background: var(--color-danger-bg);
+  border: 1px solid var(--color-danger-border);
+}
+
+.danger .icon {
+  color: var(--color-danger);
+  flex-shrink: 0;
+}
+
+.danger .title,
+.danger .subtitle {
+  color: var(--color-danger-dark);
+}
+
+.warning {
+  background: var(--color-warning-bg);
+  border: 1px solid var(--color-warning-border);
+}
+
+.warning .icon {
+  color: var(--color-warning);
+  flex-shrink: 0;
+}
+
+.warning .title,
+.warning .subtitle {
+  color: var(--color-warning);
+}
+
+.text {
+  flex: 1;
+  min-width: 0;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.subtitle {
+  font-size: 16px;
+  margin-top: 2px;
+}

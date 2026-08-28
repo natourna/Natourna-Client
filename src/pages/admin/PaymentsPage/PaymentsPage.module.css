@@ -1,0 +1,163 @@
+.desktopOnly {
+  display: none;
+}
+
+.mobileOnly {
+  display: inline-flex;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.headRow {
+  display: none;
+}
+
+.row {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-card);
+  border-radius: var(--radius-row);
+  padding: 16px 18px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-areas:
+    "info amount"
+    "info status"
+    "action action";
+  column-gap: 12px;
+  row-gap: 6px;
+}
+
+.aptCell {
+  display: none;
+}
+
+.info {
+  grid-area: info;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.title {
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.sub {
+  font-size: 16px;
+  color: var(--color-text-secondary);
+}
+
+.amount {
+  grid-area: amount;
+  justify-self: end;
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.status {
+  grid-area: status;
+  justify-self: end;
+}
+
+.action {
+  grid-area: action;
+}
+
+.action:empty {
+  display: none;
+}
+
+.markButton {
+  width: 100%;
+  height: 52px;
+  margin-top: 6px;
+}
+
+@media (min-width: 1024px) {
+  .desktopOnly {
+    display: inline-flex;
+  }
+
+  .mobileOnly {
+    display: none;
+  }
+
+  .list {
+    gap: 0;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border-card);
+    border-radius: var(--radius-card);
+    overflow: hidden;
+  }
+
+  .headRow {
+    display: grid;
+    grid-template-columns: 120px 1fr 120px 200px 200px;
+    padding: 14px 24px;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--color-text-muted);
+    border-bottom: 1px solid var(--color-divider);
+  }
+
+  .row {
+    grid-template-columns: 120px 1fr 120px 200px 200px;
+    grid-template-areas: "apt info amount status action";
+    align-items: center;
+    min-height: 72px;
+    padding: 8px 24px;
+    border: none;
+    border-bottom: 1px solid var(--color-divider-soft);
+    border-radius: 0;
+  }
+
+  .row:last-child {
+    border-bottom: none;
+  }
+
+  .aptCell {
+    display: block;
+    grid-area: apt;
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  .aptInline {
+    display: none;
+  }
+
+  .title {
+    font-size: 17px;
+    font-weight: 600;
+  }
+
+  .sub {
+    font-size: 15px;
+    color: var(--color-text-muted);
+  }
+
+  .amount {
+    justify-self: start;
+    font-size: 19px;
+  }
+
+  .status {
+    justify-self: start;
+  }
+
+  .action {
+    justify-self: end;
+  }
+
+  .markButton {
+    width: auto;
+    height: var(--control-height-sm);
+    margin-top: 0;
+  }
+}

@@ -1,0 +1,30 @@
+import type { ApartmentService } from "./apartmentService";
+import type { AuthService } from "./authService";
+import type { BalanceService } from "./balanceService";
+import type { BillService } from "./billService";
+import type { BuildingService } from "./buildingService";
+import type { CompoundService } from "./compoundService";
+import type { CycleService } from "./cycleService";
+import type { PaymentService } from "./paymentService";
+import type { UserService } from "./userService";
+import { mockApartmentService } from "./mock/mockApartmentService";
+import { mockAuthService } from "./mock/mockAuthService";
+import { mockBalanceService } from "./mock/mockBalanceService";
+import { mockBillService } from "./mock/mockBillService";
+import { mockBuildingService } from "./mock/mockBuildingService";
+import { mockCompoundService } from "./mock/mockCompoundService";
+import { mockCycleService } from "./mock/mockCycleService";
+import { mockPaymentService } from "./mock/mockPaymentService";
+import { mockUserService } from "./mock/mockUserService";
+
+export const apartmentService: ApartmentService = mockApartmentService;
+export const authService: AuthService = mockAuthService;
+export const balanceService: BalanceService = mockBalanceService;
+export const billService: BillService = mockBillService;
+export const buildingService: BuildingService = mockBuildingService;
+export const compoundService: CompoundService = mockCompoundService;
+export const cycleService: CycleService = mockCycleService;
+export const paymentService: PaymentService = mockPaymentService;
+export const userService: UserService = mockUserService;
+
+export { AppError, toErrorMessage } from "./appError";

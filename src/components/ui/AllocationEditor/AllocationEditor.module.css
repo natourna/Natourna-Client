@@ -1,0 +1,85 @@
+.editor {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-card);
+  border-radius: var(--radius-card);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.inactive {
+  opacity: 0.6;
+}
+
+.dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.name {
+  flex: 1;
+  font-size: 17px;
+}
+
+.percentWrapper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.percentInput {
+  width: 76px;
+  height: 48px;
+  border: 2px solid var(--color-border-input);
+  border-radius: var(--radius-chip);
+  text-align: center;
+  font-size: 18px;
+  font-weight: 800;
+  background: var(--color-surface);
+  color: var(--color-ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.percentInput:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.bar {
+  display: flex;
+  height: 16px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.summary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.summaryOk {
+  color: var(--color-primary-dark);
+}
+
+.summaryWarn {
+  color: var(--color-warning);
+}

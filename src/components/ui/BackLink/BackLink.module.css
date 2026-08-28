@@ -1,0 +1,11 @@
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--color-primary);
+  font-size: 17px;
+  font-weight: 700;
+  text-decoration: none;
+  min-height: 44px;
+  align-self: flex-start;
+}

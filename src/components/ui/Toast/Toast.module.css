@@ -1,0 +1,20 @@
+.toast {
+  background: var(--color-primary-soft);
+  border: 1px solid var(--color-primary-soft-border);
+  border-radius: var(--radius-button);
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  color: var(--color-primary-dark);
+  font-family: inherit;
+  text-align: left;
+  width: 100%;
+}
+
+.message {
+  font-size: 17px;
+  font-weight: 700;
+  flex: 1;
+}

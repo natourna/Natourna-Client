@@ -1,0 +1,109 @@
+.total {
+  font-size: 18px;
+  color: var(--color-text-secondary);
+}
+
+.grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.fundCard {
+  padding: 20px;
+}
+
+.fundHeader {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.fundName {
+  flex: 1;
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.fundAmount {
+  font-size: 28px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.activity {
+  border-top: 1px solid var(--color-divider);
+  margin-top: 14px;
+  padding-top: 6px;
+}
+
+.noActivity {
+  font-size: 16px;
+  color: var(--color-text-secondary);
+  padding: 12px 0;
+}
+
+.directionIcon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 19px;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.directionIn {
+  background: var(--color-primary-soft);
+  color: var(--color-primary-dark);
+}
+
+.directionOut {
+  background: var(--color-danger-bg);
+  color: var(--color-danger);
+}
+
+.entryLabel {
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.entryAmount {
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.amountIn {
+  color: var(--color-primary-dark);
+}
+
+.amountOut {
+  color: var(--color-danger);
+}
+
+@media (min-width: 1024px) {
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    align-items: start;
+  }
+
+  .fundHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .fundName {
+    flex: none;
+    font-size: 16px;
+    color: var(--color-text-secondary);
+  }
+
+  .fundAmount {
+    font-size: 32px;
+  }
+}

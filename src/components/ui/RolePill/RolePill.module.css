@@ -1,0 +1,17 @@
+.pill {
+  display: inline-block;
+  padding: 3px 12px;
+  border-radius: var(--radius-pill);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.admin {
+  background: var(--color-ink);
+  color: var(--color-inverse);
+}
+
+.resident {
+  background: var(--color-surface-subtle);
+  color: var(--color-text-label);
+}
