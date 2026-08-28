@@ -1,0 +1,32 @@
+.chips {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.chip {
+  height: 46px;
+  padding: 0 16px;
+  border-radius: 23px;
+  background: var(--color-surface);
+  color: var(--color-text-label);
+  border: 2px solid var(--color-border-input);
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.active {
+  background: var(--color-primary);
+  color: var(--color-inverse);
+  border-color: var(--color-primary);
+}
+
+@media (min-width: 1024px) {
+  .chip {
+    height: var(--control-height-sm);
+    padding: 0 20px;
+    border-radius: 24px;
+    font-size: 17px;
+  }
+}
