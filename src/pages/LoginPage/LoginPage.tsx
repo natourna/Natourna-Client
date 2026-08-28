@@ -1,18 +1,16 @@
 import { Brand } from "../../components/ui/Brand";
 import { Button } from "../../components/ui/Button";
 import { TextField } from "../../components/ui/FormField";
-import { useCompound } from "../../hooks/useCompound";
 import { useLoginForm } from "../../hooks/useLoginForm";
 import styles from "./LoginPage.module.css";
 
 export function LoginPage() {
-  const { compound } = useCompound();
   const { email, setEmail, password, setPassword, isSubmitting, error, submit } = useLoginForm();
 
   return (
     <div className={styles.page}>
       <div className={styles.content}>
-        <Brand size="lg" subtitle={compound?.name} />
+        <Brand size="lg" />
         <form
           className={styles.card}
           onSubmit={(event) => {
@@ -42,9 +40,6 @@ export function LoginPage() {
           <Button type="submit" size="lg" fullWidth disabled={isSubmitting}>
             {isSubmitting ? "Signing in…" : "Sign in"}
           </Button>
-          <a href="#" className={styles.forgot}>
-            I forgot my password
-          </a>
         </form>
         <div className={styles.footer}>
           Don't have an account?
