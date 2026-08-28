@@ -1,0 +1,1 @@
+export { ApartmentsPage } from "./ApartmentsPage";
