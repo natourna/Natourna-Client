@@ -28,6 +28,13 @@ export function AddUserPage() {
           onChange={form.setPhoneNumber}
           placeholder="03 123 456"
         />
+        <TextField
+          label="Password"
+          type="password"
+          value={form.password}
+          onChange={form.setPassword}
+          placeholder="At least 8 characters"
+        />
         <SelectField
           label="Role"
           value={form.role}

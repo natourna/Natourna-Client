@@ -7,11 +7,12 @@ export function useAddUser() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [password, setPassword] = useState("");
   const [role, setRole] = useState<UserRole>("User");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
 
-  const isValid = email.trim().includes("@") && phoneNumber.trim() !== "";
+  const isValid = email.trim().includes("@") && phoneNumber.trim() !== "" && password.length >= 8;
 
   const submit = async () => {
     if (!isValid) return;
@@ -21,6 +22,7 @@ export function useAddUser() {
       await userService.createUser({
         email: email.trim(),
         phoneNumber: phoneNumber.trim(),
+        password,
         role,
       });
       navigate("/people");
@@ -35,6 +37,8 @@ export function useAddUser() {
     setEmail,
     phoneNumber,
     setPhoneNumber,
+    password,
+    setPassword,
     role,
     setRole,
     isValid,
