@@ -1,12 +1,6 @@
-export interface Bill {
-  id: string;
-  label: string;
-  amount: number;
-  dueDate: string;
-  isPaid: boolean;
-  paymentDate: string | null;
-  balanceId: string;
-  balanceName: string;
-}
+import type { z } from "zod";
+import type { billInputSchema, billSchema } from "../schemas/bill";
 
-export type BillInput = Omit<Bill, "id" | "isPaid" | "paymentDate" | "balanceName">;
+export type Bill = z.infer<typeof billSchema>;
+
+export type BillInput = z.infer<typeof billInputSchema>;

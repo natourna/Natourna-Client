@@ -1,12 +1,6 @@
-export interface Apartment {
-  id: string;
-  apartmentInfo: string;
-  owner: string;
-  tenant: string | null;
-  isActive: boolean;
-  floor: string;
-  buildingId: string;
-  buildingName: string;
-}
+import type { z } from "zod";
+import type { apartmentInputSchema, apartmentSchema } from "../schemas/apartment";
 
-export type ApartmentInput = Omit<Apartment, "id" | "buildingName">;
+export type Apartment = z.infer<typeof apartmentSchema>;
+
+export type ApartmentInput = z.infer<typeof apartmentInputSchema>;

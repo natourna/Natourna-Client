@@ -1,28 +1,8 @@
-import type { PaymentAllocationInput } from "./payment";
+import type { z } from "zod";
+import type { cycleInputSchema, cycleSchema, paymentCycleSchema } from "../schemas/cycle";
 
-export type PaymentCycle =
-  | "Weekly"
-  | "Monthly"
-  | "Quarterly"
-  | "SemiAnnual"
-  | "Annual"
-  | "OneTime";
+export type PaymentCycle = z.infer<typeof paymentCycleSchema>;
 
-export interface Cycle {
-  id: string;
-  label: string;
-  description: string;
-  paymentCycle: PaymentCycle;
-  startDate: string;
-  endDate: string;
-  amount: number;
-  isActive: boolean;
-  balanceAllocations: PaymentAllocationInput[];
-}
+export type Cycle = z.infer<typeof cycleSchema>;
 
-export type CycleInput = Pick<
-  Cycle,
-  "label" | "paymentCycle" | "startDate" | "endDate" | "amount" | "balanceAllocations"
-> & {
-  apartmentIds: string[];
-};
+export type CycleInput = z.infer<typeof cycleInputSchema>;

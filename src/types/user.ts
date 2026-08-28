@@ -1,11 +1,8 @@
-export type UserRole = "User" | "Admin";
+import type { z } from "zod";
+import type { userInputSchema, userRoleSchema, userSchema } from "../schemas/user";
 
-export interface User {
-  id: string;
-  email: string;
-  phoneNumber: string;
-  role: UserRole;
-  isActive: boolean;
-}
+export type UserRole = z.infer<typeof userRoleSchema>;
 
-export type UserInput = Pick<User, "email" | "phoneNumber" | "role">;
+export type User = z.infer<typeof userSchema>;
+
+export type UserInput = z.infer<typeof userInputSchema>;

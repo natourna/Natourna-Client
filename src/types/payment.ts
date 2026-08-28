@@ -1,30 +1,15 @@
-export interface PaymentAllocation {
-  balanceId: string;
-  percentage: number;
-  allocatedAmount: number;
-}
+import type { z } from "zod";
+import type {
+  paymentAllocationInputSchema,
+  paymentAllocationSchema,
+  paymentInputSchema,
+  paymentSchema,
+} from "../schemas/payment";
 
-export interface Payment {
-  id: string;
-  label: string;
-  amount: number;
-  paymentDate: string | null;
-  dueDate: string;
-  isPaid: boolean;
-  apartmentId: string;
-  apartmentOwner: string;
-  apartmentTenant: string | null;
-  cycleId: string | null;
-  cycleName: string | null;
-  recurrent: boolean;
-  allocations: PaymentAllocation[];
-}
+export type PaymentAllocation = z.infer<typeof paymentAllocationSchema>;
 
-export type PaymentAllocationInput = Omit<PaymentAllocation, "allocatedAmount">;
+export type Payment = z.infer<typeof paymentSchema>;
 
-export type PaymentInput = Pick<
-  Payment,
-  "label" | "amount" | "dueDate" | "apartmentId"
-> & {
-  allocations: PaymentAllocationInput[];
-};
+export type PaymentAllocationInput = z.infer<typeof paymentAllocationInputSchema>;
+
+export type PaymentInput = z.infer<typeof paymentInputSchema>;

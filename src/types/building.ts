@@ -1,7 +1,4 @@
-export interface Building {
-  id: string;
-  name: string;
-  numberOfApartments: number;
-  floors: number;
-  compoundId: string;
-}
+import type { z } from "zod";
+import type { buildingSchema } from "../schemas/building";
+
+export type Building = z.infer<typeof buildingSchema>;
