@@ -1,5 +1,5 @@
-import type { AuthSession } from "../types/auth";
+import type { LoginResult } from "../types/auth";
 
 export interface AuthService {
-  login(email: string, password: string): Promise<AuthSession>;
+  login(email: string, password: string): Promise<LoginResult>;
 }
