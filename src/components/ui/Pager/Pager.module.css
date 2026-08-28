@@ -1,0 +1,13 @@
+.pager {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 16px 0;
+}
+
+.info {
+  color: var(--color-text-label);
+  font-size: 15px;
+  font-weight: 600;
+}
