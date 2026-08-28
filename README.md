@@ -1,6 +1,6 @@
 # Natourna Client
 
-Frontend for Natourna — a building-committee money management app. React 18 + TypeScript (strict) + Vite, running on a mock in-memory backend until the real API is ready.
+Client for Natourna — a building-committee money management app. React 18 + TypeScript (strict) + Vite, running on a mock in-memory data layer until the real server is ready.
 
 ## Getting started
 
