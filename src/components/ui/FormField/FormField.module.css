@@ -1,0 +1,45 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-text-label);
+}
+
+.input {
+  height: var(--control-height-input);
+  border: 2px solid var(--color-border-input);
+  border-radius: var(--radius-input);
+  padding: 0 16px;
+  font-size: 18px;
+  background: var(--color-surface);
+  color: var(--color-ink);
+  width: 100%;
+  appearance: none;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.dateWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.dateIcon {
+  position: absolute;
+  left: 16px;
+  color: var(--color-text-placeholder);
+  pointer-events: none;
+}
+
+.dateInput {
+  padding-left: 48px;
+}
