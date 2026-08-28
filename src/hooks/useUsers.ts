@@ -3,6 +3,7 @@ import type { User } from "../types/user";
 import { apartmentService, toErrorMessage, userService } from "../services";
 import { nameFromEmail } from "../utils/names";
 import { useAsyncData } from "./useAsyncData";
+import { useDebouncedValue } from "./useDebouncedValue";
 
 export interface UserRow {
   user: User;
@@ -10,14 +11,24 @@ export interface UserRow {
   apartmentLabel: string | null;
 }
 
+const PAGE_SIZE = 20;
+
 export function useUsers() {
+  const [search, setSearchState] = useState("");
+  const [page, setPage] = useState(1);
+  const debouncedSearch = useDebouncedValue(search.trim(), 300);
+
   const loader = useCallback(async () => {
     const [users, apartments] = await Promise.all([
-      userService.getUsers(),
-      apartmentService.getApartments(),
+      userService.getUsers({
+        page,
+        pageSize: PAGE_SIZE,
+        search: debouncedSearch === "" ? undefined : debouncedSearch,
+      }),
+      apartmentService.getAllApartments(),
     ]);
     return { users, apartments };
-  }, []);
+  }, [debouncedSearch, page]);
 
   const { data, isLoading, error, reload } = useAsyncData(loader);
 
@@ -27,7 +38,7 @@ export function useUsers() {
 
   const rows = useMemo<UserRow[]>(() => {
     if (!data) return [];
-    return data.users.map((user) => {
+    return data.users.items.map((user) => {
       const displayName = nameFromEmail(user.email);
       const owned = data.apartments.find((apartment) => apartment.owner === displayName);
       const rented = data.apartments.find((apartment) => apartment.tenant === displayName);
@@ -42,6 +53,11 @@ export function useUsers() {
       };
     });
   }, [data]);
+
+  const setSearch = useCallback((next: string) => {
+    setSearchState(next);
+    setPage(1);
+  }, []);
 
   const requestToggleActive = (user: User) => {
     setActionError(null);
@@ -70,6 +86,12 @@ export function useUsers() {
     isLoading,
     error,
     reload,
+    search,
+    setSearch,
+    page,
+    setPage,
+    pageSize: PAGE_SIZE,
+    totalCount: data?.users.totalCount ?? 0,
     isConfirmOpen: pendingUser !== null,
     isSaving,
     confirmTitle: pendingUser

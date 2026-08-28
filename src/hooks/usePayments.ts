@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState } from "react";
 import type { Payment } from "../types/payment";
-import { apartmentService, balanceService, paymentService } from "../services";
+import { balanceService, paymentService } from "../services";
 import { todayIso } from "../utils/date";
 import { paymentStatus, type PaymentStatus } from "../utils/paymentStatus";
 import { useAsyncData } from "./useAsyncData";
@@ -14,27 +14,32 @@ export interface PaymentRow {
   status: PaymentStatus;
 }
 
-const statusOrder: Record<PaymentStatus, number> = { overdue: 0, due: 1, paid: 2 };
+const PAGE_SIZE = 20;
 
-function compareRows(a: PaymentRow, b: PaymentRow): number {
-  if (a.status !== b.status) return statusOrder[a.status] - statusOrder[b.status];
-  if (a.status === "paid") {
-    return (b.payment.paymentDate ?? "").localeCompare(a.payment.paymentDate ?? "");
+function filterParams(filter: PaymentFilter): { isPaid?: boolean; dueBefore?: string } {
+  switch (filter) {
+    case "due":
+      return { isPaid: false };
+    case "paid":
+      return { isPaid: true };
+    case "overdue":
+      return { isPaid: false, dueBefore: todayIso() };
+    default:
+      return {};
   }
-  return a.payment.dueDate.localeCompare(b.payment.dueDate);
 }
 
 export function usePayments() {
-  const [filter, setFilter] = useState<PaymentFilter>("all");
+  const [filter, setFilterState] = useState<PaymentFilter>("all");
+  const [page, setPage] = useState(1);
 
   const loader = useCallback(async () => {
-    const [payments, apartments, balances] = await Promise.all([
-      paymentService.getPayments(),
-      apartmentService.getApartments(),
+    const [payments, balances] = await Promise.all([
+      paymentService.getPayments({ page, pageSize: PAGE_SIZE, ...filterParams(filter) }),
       balanceService.getBalances(),
     ]);
-    return { payments, apartments, balances };
-  }, []);
+    return { payments, balances };
+  }, [filter, page]);
 
   const { data, isLoading, error, reload } = useAsyncData(loader);
   const actions = usePaymentActions(data?.balances ?? null, reload);
@@ -42,24 +47,17 @@ export function usePayments() {
   const rows = useMemo<PaymentRow[]>(() => {
     if (!data) return [];
     const today = todayIso();
-    return data.payments
-      .map((payment) => ({
-        payment,
-        apartmentLabel:
-          data.apartments.find((apartment) => apartment.id === payment.apartmentId)
-            ?.apartmentInfo ?? "—",
-        status: paymentStatus(payment, today),
-      }))
-      .sort(compareRows);
+    return data.payments.items.map((payment) => ({
+      payment,
+      apartmentLabel: payment.apartmentInfo,
+      status: paymentStatus(payment, today),
+    }));
   }, [data]);
 
-  const filteredRows = useMemo(
-    () => rows.filter((row) => filter === "all" || row.status === filter),
-    [rows, filter],
-  );
-
-  const countFor = (target: PaymentFilter) =>
-    target === "all" ? rows.length : rows.filter((row) => row.status === target).length;
+  const setFilter = useCallback((next: PaymentFilter) => {
+    setFilterState(next);
+    setPage(1);
+  }, []);
 
   return {
     isLoading,
@@ -67,8 +65,11 @@ export function usePayments() {
     reload,
     filter,
     setFilter,
-    filteredRows,
-    countFor,
+    rows,
+    page,
+    setPage,
+    pageSize: PAGE_SIZE,
+    totalCount: data?.payments.totalCount ?? 0,
     ...actions,
   };
 }

@@ -12,16 +12,20 @@ export interface BillRow {
   remainingAfter: number | null;
 }
 
+const PAGE_SIZE = 20;
+
 const statusOrder: Record<PaymentStatus, number> = { overdue: 0, due: 1, paid: 2 };
 
 export function useBills() {
+  const [page, setPage] = useState(1);
+
   const loader = useCallback(async () => {
     const [bills, balances] = await Promise.all([
-      billService.getBills(),
+      billService.getBills({ page, pageSize: PAGE_SIZE }),
       balanceService.getBalances(),
     ]);
     return { bills, balances };
-  }, []);
+  }, [page]);
 
   const { data, isLoading, error, reload } = useAsyncData(loader);
 
@@ -33,7 +37,7 @@ export function useBills() {
   const rows = useMemo<BillRow[]>(() => {
     if (!data) return [];
     const today = todayIso();
-    return data.bills
+    return data.bills.items
       .map((bill) => {
         const balance = data.balances.find((candidate) => candidate.id === bill.balanceId);
         return {
@@ -81,6 +85,10 @@ export function useBills() {
     isLoading,
     error,
     reload,
+    page,
+    setPage,
+    pageSize: PAGE_SIZE,
+    totalCount: data?.bills.totalCount ?? 0,
     isConfirmOpen: pendingBill !== null,
     isMarking,
     confirmTitle: pendingBill
