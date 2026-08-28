@@ -1,0 +1,66 @@
+.picker {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.label {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-text-label);
+}
+
+.option {
+  background: var(--color-surface);
+  border: 2px solid var(--color-border-input);
+  border-radius: var(--radius-button);
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+  min-height: var(--control-height-md);
+}
+
+.selected {
+  background: var(--color-primary-soft);
+  border-color: var(--color-primary);
+}
+
+.checkIcon {
+  color: var(--color-primary-dark);
+  flex-shrink: 0;
+}
+
+.radioCircle {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid var(--color-border-input);
+  flex-shrink: 0;
+}
+
+.name {
+  flex: 1;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+.selected .name {
+  font-weight: 700;
+  color: var(--color-primary-dark);
+}
+
+.amount {
+  font-size: 17px;
+  color: var(--color-text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+.selected .amount {
+  color: var(--color-primary-dark);
+  font-weight: 700;
+}
