@@ -22,6 +22,12 @@ export const apiApartmentService: ApartmentService = {
     return fetchAllPages((page, pageSize) => request("/Apartment", pagedApartmentsSchema, { query: { page, pageSize } }));
   },
 
+  getApartmentsPage(page, pageSize, search) {
+    return request("/Apartment", pagedApartmentsSchema, {
+      query: { page, pageSize, search: search || undefined },
+    });
+  },
+
   getApartmentById(id) {
     return request(`/Apartment/${id}`, apartmentSchema);
   },

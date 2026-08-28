@@ -10,6 +10,10 @@ export const apiBillService: BillService = {
     return fetchAllPages((page, pageSize) => request("/Bill", pagedBillsSchema, { query: { page, pageSize } }));
   },
 
+  getBillsPage(page, pageSize) {
+    return request("/Bill", pagedBillsSchema, { query: { page, pageSize } });
+  },
+
   createBill(input) {
     return request("/Bill", billSchema, {
       method: "POST",
