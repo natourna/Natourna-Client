@@ -1,0 +1,14 @@
+node_modules/
+dist/
+*.local
+
+.env
+.env.*
+!.env.example
+
+CLAUDE.md
+
+.DS_Store
+*.log
+.idea/
+.vscode/
