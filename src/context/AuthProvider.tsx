@@ -1,14 +1,26 @@
-import { useCallback, useMemo, useState, type ReactNode } from "react";
-import type { AuthSession } from "../types/auth";
-import type { User } from "../types/user";
+import { useCallback, useEffect, useMemo, useState, type ReactNode } from "react";
+import { z } from "zod";
 import { authService, userService } from "../services";
+import { setOnUnauthorized } from "../services/http";
 import { tokenStore } from "../services/tokenStore";
 import { AuthContext } from "./authContext";
 
-interface StoredAuth {
-  session: AuthSession;
-  user: User;
-}
+const storedAuthSchema = z.object({
+  session: z.object({
+    token: z.string(),
+    username: z.string(),
+    expiresAt: z.string(),
+  }),
+  user: z.object({
+    id: z.string(),
+    email: z.string(),
+    phoneNumber: z.string(),
+    role: z.enum(["User", "Admin"]),
+    isActive: z.boolean(),
+  }),
+});
+
+type StoredAuth = z.infer<typeof storedAuthSchema>;
 
 const STORAGE_KEY = "natourna.auth";
 
@@ -16,13 +28,15 @@ function readStoredAuth(): StoredAuth | null {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return null;
-    const stored = JSON.parse(raw) as StoredAuth;
-    if (new Date(stored.session.expiresAt) <= new Date()) {
+
+    const parsed = storedAuthSchema.safeParse(JSON.parse(raw));
+    if (!parsed.success || new Date(parsed.data.session.expiresAt) <= new Date()) {
       localStorage.removeItem(STORAGE_KEY);
       return null;
     }
-    tokenStore.set(stored.session.token);
-    return stored;
+
+    tokenStore.set(parsed.data.session.token);
+    return parsed.data;
   } catch {
     return null;
   }
@@ -44,6 +58,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     tokenStore.set(null);
     setAuth(null);
   }, []);
+
+  useEffect(() => {
+    setOnUnauthorized(logout);
+    return () => setOnUnauthorized(null);
+  }, [logout]);
 
   const value = useMemo(
     () => ({
