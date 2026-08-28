@@ -1,7 +1,18 @@
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { z } from "zod";
 import { apartmentService, buildingService, toErrorMessage } from "../services";
+import { toFieldErrors, type FieldErrors } from "../utils/formErrors";
 import { useAsyncData } from "./useAsyncData";
+
+const apartmentFormSchema = z.object({
+  apartmentInfo: z.string().min(1, "Enter the apartment info."),
+  floor: z.string().regex(/^\d+$/, "Floor must be a number."),
+  buildingId: z.string().min(1, "Choose a building."),
+  owner: z.string().min(1, "Enter the owner's name."),
+});
+
+type ApartmentFormValues = z.infer<typeof apartmentFormSchema>;
 
 export function useApartmentForm(apartmentId: string | null) {
   const navigate = useNavigate();
@@ -24,6 +35,7 @@ export function useApartmentForm(apartmentId: string | null) {
   const [isActive, setIsActive] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [fieldErrors, setFieldErrors] = useState<FieldErrors<ApartmentFormValues>>({});
 
   useEffect(() => {
     if (!data?.apartment) return;
@@ -35,21 +47,27 @@ export function useApartmentForm(apartmentId: string | null) {
     setIsActive(data.apartment.isActive);
   }, [data]);
 
-  const isValid =
-    apartmentInfo.trim() !== "" &&
-    floor.trim() !== "" &&
-    buildingId !== "" &&
-    owner.trim() !== "";
+  const values = {
+    apartmentInfo: apartmentInfo.trim(),
+    floor: floor.trim(),
+    buildingId,
+    owner: owner.trim(),
+  };
+
+  const isValid = apartmentFormSchema.safeParse(values).success;
 
   const submit = async () => {
-    if (!isValid) return;
+    const parsed = apartmentFormSchema.safeParse(values);
+    if (!parsed.success) {
+      setFieldErrors(toFieldErrors(parsed.error));
+      return;
+    }
+
+    setFieldErrors({});
     setIsSubmitting(true);
     setSubmitError(null);
     const input = {
-      apartmentInfo: apartmentInfo.trim(),
-      floor: floor.trim(),
-      buildingId,
-      owner: owner.trim(),
+      ...parsed.data,
       tenant: tenant.trim() === "" ? null : tenant.trim(),
       isActive,
     };
@@ -88,6 +106,7 @@ export function useApartmentForm(apartmentId: string | null) {
     isValid,
     isSubmitting,
     submitError,
+    fieldErrors,
     submit,
   };
 }

@@ -1,6 +1,15 @@
 import { useState } from "react";
+import { z } from "zod";
 import { useAuth } from "./useAuth";
 import { toErrorMessage } from "../services";
+import { toFieldErrors, type FieldErrors } from "../utils/formErrors";
+
+const loginSchema = z.object({
+  email: z.email("Enter a valid email address."),
+  password: z.string().min(1, "Enter your password."),
+});
+
+type LoginValues = z.infer<typeof loginSchema>;
 
 export function useLoginForm() {
   const { login } = useAuth();
@@ -8,16 +17,20 @@ export function useLoginForm() {
   const [password, setPassword] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [fieldErrors, setFieldErrors] = useState<FieldErrors<LoginValues>>({});
 
   const submit = async () => {
-    if (email.trim() === "" || password === "") {
-      setError("Please enter your email and password.");
+    const parsed = loginSchema.safeParse({ email: email.trim(), password });
+    if (!parsed.success) {
+      setFieldErrors(toFieldErrors(parsed.error));
       return;
     }
+
+    setFieldErrors({});
     setIsSubmitting(true);
     setError(null);
     try {
-      await login(email, password);
+      await login(parsed.data.email, parsed.data.password);
     } catch (cause) {
       setError(toErrorMessage(cause));
       setIsSubmitting(false);
@@ -31,6 +44,7 @@ export function useLoginForm() {
     setPassword,
     isSubmitting,
     error,
+    fieldErrors,
     submit,
   };
 }
