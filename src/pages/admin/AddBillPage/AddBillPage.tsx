@@ -31,6 +31,7 @@ export function AddBillPage() {
           value={form.label}
           onChange={form.setLabel}
           placeholder="Elevator repair"
+          error={form.fieldErrors.label}
         />
         <TextField
           label="Amount"
@@ -45,7 +46,7 @@ export function AddBillPage() {
           value={form.balanceId}
           onChange={form.setBalanceId}
         />
-        <DateField label="Due date" value={form.dueDate} onChange={form.setDueDate} />
+        <DateField label="Due date" value={form.dueDate} onChange={form.setDueDate} error={form.fieldErrors.dueDate} />
         {form.canCover && form.selectedBalance ? (
           <div className={styles.coverOk}>
             <CheckCircleIcon size={18} />

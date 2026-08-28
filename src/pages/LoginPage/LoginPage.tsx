@@ -5,7 +5,7 @@ import { useLoginForm } from "../../hooks/useLoginForm";
 import styles from "./LoginPage.module.css";
 
 export function LoginPage() {
-  const { email, setEmail, password, setPassword, isSubmitting, error, submit } = useLoginForm();
+  const { email, setEmail, password, setPassword, isSubmitting, error, fieldErrors, submit } = useLoginForm();
 
   return (
     <div className={styles.page}>
@@ -24,6 +24,7 @@ export function LoginPage() {
             autoComplete="email"
             value={email}
             onChange={setEmail}
+            error={fieldErrors.email}
           />
           <TextField
             label="Password"
@@ -31,6 +32,7 @@ export function LoginPage() {
             autoComplete="current-password"
             value={password}
             onChange={setPassword}
+            error={fieldErrors.password}
           />
           {error ? (
             <div className={styles.error} role="alert">

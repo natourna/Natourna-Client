@@ -29,8 +29,21 @@ export function ApartmentFormPage() {
           void form.submit();
         }}
       >
-        <TextField label="Apartment name" value={form.apartmentInfo} onChange={form.setApartmentInfo} placeholder="A-3" />
-        <TextField label="Floor" value={form.floor} onChange={form.setFloor} placeholder="3rd floor" />
+        <TextField
+          label="Apartment name"
+          value={form.apartmentInfo}
+          onChange={form.setApartmentInfo}
+          placeholder="A-3"
+          error={form.fieldErrors.apartmentInfo}
+        />
+        <TextField
+          label="Floor"
+          inputMode="numeric"
+          value={form.floor}
+          onChange={form.setFloor}
+          placeholder="3"
+          error={form.fieldErrors.floor}
+        />
         <SelectField
           label="Building"
           value={form.buildingId}
@@ -41,7 +54,7 @@ export function ApartmentFormPage() {
             label: building.name,
           }))}
         />
-        <TextField label="Owner" value={form.owner} onChange={form.setOwner} />
+        <TextField label="Owner" value={form.owner} onChange={form.setOwner} error={form.fieldErrors.owner} />
         <TextField
           label="Tenant (leave empty if none)"
           value={form.tenant}

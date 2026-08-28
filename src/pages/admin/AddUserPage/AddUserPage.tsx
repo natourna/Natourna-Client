@@ -20,13 +20,20 @@ export function AddUserPage() {
           void form.submit();
         }}
       >
-        <TextField label="Email" type="email" value={form.email} onChange={form.setEmail} />
+        <TextField
+          label="Email"
+          type="email"
+          value={form.email}
+          onChange={form.setEmail}
+          error={form.fieldErrors.email}
+        />
         <TextField
           label="Phone number"
           type="tel"
           value={form.phoneNumber}
           onChange={form.setPhoneNumber}
           placeholder="03 123 456"
+          error={form.fieldErrors.phoneNumber}
         />
         <TextField
           label="Password"
@@ -34,6 +41,7 @@ export function AddUserPage() {
           value={form.password}
           onChange={form.setPassword}
           placeholder="At least 8 characters"
+          error={form.fieldErrors.password}
         />
         <SelectField
           label="Role"
