@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Button } from "../../../components/ui/Button";
+import { Pagination } from "../../../components/ui/Pagination";
 import { ChevronRightIcon } from "../../../components/ui/Icons";
 import { PageHeader } from "../../../components/ui/PageHeader";
 import { SearchInput } from "../../../components/ui/SearchInput";
@@ -19,6 +20,9 @@ export function ApartmentsPage() {
     search,
     setSearch,
     groups,
+    page,
+    setPage,
+    totalPages,
     apartmentCount,
     buildingCount,
   } = useApartments();
@@ -87,6 +91,7 @@ export function ApartmentsPage() {
           ))}
         </div>
       )}
+      <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
     </div>
   );
 }

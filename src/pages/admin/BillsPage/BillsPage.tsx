@@ -1,6 +1,7 @@
 import { AlertBanner } from "../../../components/ui/AlertBanner";
 import { Button } from "../../../components/ui/Button";
 import { ConfirmDialog } from "../../../components/ui/ConfirmDialog";
+import { Pagination } from "../../../components/ui/Pagination";
 import { PageHeader } from "../../../components/ui/PageHeader";
 import { EmptyState, ErrorState, LoadingState } from "../../../components/ui/StateViews";
 import { StatusBadge } from "../../../components/ui/StatusBadge";
@@ -13,6 +14,9 @@ import styles from "./BillsPage.module.css";
 export function BillsPage() {
   const {
     rows,
+    page,
+    setPage,
+    totalPages,
     isLoading,
     error,
     reload,
@@ -77,6 +81,7 @@ export function BillsPage() {
           ))}
         </div>
       )}
+      <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
       <ConfirmDialog
         open={isConfirmOpen}
         title={confirmTitle}

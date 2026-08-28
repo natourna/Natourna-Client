@@ -12,6 +12,10 @@ export const apiUserService: UserService = {
     return fetchAllPages((page, pageSize) => request("/User", pagedUsersSchema, { query: { page, pageSize } }));
   },
 
+  getUsersPage(page, pageSize) {
+    return request("/User", pagedUsersSchema, { query: { page, pageSize } });
+  },
+
   getCurrentUser() {
     return request("/User/me", userSchema);
   },

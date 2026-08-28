@@ -1,10 +1,10 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 import type { Bill } from "../types/bill";
 import { balanceService, billService, toErrorMessage } from "../services";
 import { formatCurrency } from "../utils/currency";
 import { todayIso } from "../utils/date";
 import { paymentStatus, type PaymentStatus } from "../utils/paymentStatus";
-import { useAsyncData } from "./useAsyncData";
+import { usePagedData } from "./usePagedData";
 
 export interface BillRow {
   bill: Bill;
@@ -15,27 +15,15 @@ export interface BillRow {
 const statusOrder: Record<PaymentStatus, number> = { overdue: 0, due: 1, paid: 2 };
 
 export function useBills() {
-  const loader = useCallback(async () => {
+  const loader = useCallback(async (page: number, pageSize: number) => {
     const [bills, balances] = await Promise.all([
-      billService.getBills(),
+      billService.getBillsPage(page, pageSize),
       balanceService.getBalances(),
     ]);
-    return { bills, balances };
-  }, []);
-
-  const { data, isLoading, error, reload } = useAsyncData(loader);
-
-  const [pendingBill, setPendingBill] = useState<Bill | null>(null);
-  const [isMarking, setIsMarking] = useState(false);
-  const [toastMessage, setToastMessage] = useState<string | null>(null);
-  const [actionError, setActionError] = useState<string | null>(null);
-
-  const rows = useMemo<BillRow[]>(() => {
-    if (!data) return [];
     const today = todayIso();
-    return data.bills
+    const items = bills.items
       .map((bill) => {
-        const balance = data.balances.find((candidate) => candidate.id === bill.balanceId);
+        const balance = balances.find((candidate) => candidate.id === bill.balanceId);
         return {
           bill,
           status: paymentStatus(bill, today),
@@ -50,7 +38,17 @@ export function useBills() {
         }
         return a.bill.dueDate.localeCompare(b.bill.dueDate);
       });
-  }, [data]);
+    return { ...bills, items };
+  }, []);
+
+  const { items, page, setPage, totalPages, isLoading, error, reload } = usePagedData<BillRow>(loader);
+
+  const [pendingBill, setPendingBill] = useState<Bill | null>(null);
+  const [isMarking, setIsMarking] = useState(false);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [actionError, setActionError] = useState<string | null>(null);
+
+  const rows = items ?? [];
 
   const requestMarkAsPaid = (bill: Bill) => {
     setToastMessage(null);
@@ -78,6 +76,9 @@ export function useBills() {
 
   return {
     rows,
+    page,
+    setPage,
+    totalPages,
     isLoading,
     error,
     reload,
