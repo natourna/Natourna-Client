@@ -1,8 +1,8 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 import type { User } from "../types/user";
 import { apartmentService, toErrorMessage, userService } from "../services";
 import { nameFromEmail } from "../utils/names";
-import { useAsyncData } from "./useAsyncData";
+import { usePagedData } from "./usePagedData";
 
 export interface UserRow {
   user: User;
@@ -11,26 +11,15 @@ export interface UserRow {
 }
 
 export function useUsers() {
-  const loader = useCallback(async () => {
+  const loader = useCallback(async (page: number, pageSize: number) => {
     const [users, apartments] = await Promise.all([
-      userService.getUsers(),
+      userService.getUsersPage(page, pageSize),
       apartmentService.getApartments(),
     ]);
-    return { users, apartments };
-  }, []);
-
-  const { data, isLoading, error, reload } = useAsyncData(loader);
-
-  const [pendingUser, setPendingUser] = useState<User | null>(null);
-  const [isSaving, setIsSaving] = useState(false);
-  const [actionError, setActionError] = useState<string | null>(null);
-
-  const rows = useMemo<UserRow[]>(() => {
-    if (!data) return [];
-    return data.users.map((user) => {
+    const items = users.items.map((user) => {
       const displayName = nameFromEmail(user.email);
-      const owned = data.apartments.find((apartment) => apartment.owner === displayName);
-      const rented = data.apartments.find((apartment) => apartment.tenant === displayName);
+      const owned = apartments.find((apartment) => apartment.owner === displayName);
+      const rented = apartments.find((apartment) => apartment.tenant === displayName);
       return {
         user,
         displayName,
@@ -41,7 +30,16 @@ export function useUsers() {
             : null,
       };
     });
-  }, [data]);
+    return { ...users, items };
+  }, []);
+
+  const { items, page, setPage, totalPages, isLoading, error, reload } = usePagedData<UserRow>(loader);
+
+  const [pendingUser, setPendingUser] = useState<User | null>(null);
+  const [isSaving, setIsSaving] = useState(false);
+  const [actionError, setActionError] = useState<string | null>(null);
+
+  const rows = items ?? [];
 
   const requestToggleActive = (user: User) => {
     setActionError(null);
@@ -67,6 +65,9 @@ export function useUsers() {
 
   return {
     rows,
+    page,
+    setPage,
+    totalPages,
     isLoading,
     error,
     reload,

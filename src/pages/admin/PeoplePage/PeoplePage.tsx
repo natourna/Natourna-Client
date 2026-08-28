@@ -2,6 +2,7 @@ import { AlertBanner } from "../../../components/ui/AlertBanner";
 import { Avatar } from "../../../components/ui/Avatar";
 import { Button } from "../../../components/ui/Button";
 import { ConfirmDialog } from "../../../components/ui/ConfirmDialog";
+import { Pagination } from "../../../components/ui/Pagination";
 import { CheckCircleIcon } from "../../../components/ui/Icons";
 import { PageHeader } from "../../../components/ui/PageHeader";
 import { RolePill } from "../../../components/ui/RolePill";
@@ -14,6 +15,9 @@ export function PeoplePage() {
   const { user: currentUser } = useAuth();
   const {
     rows,
+    page,
+    setPage,
+    totalPages,
     isLoading,
     error,
     reload,
@@ -86,6 +90,7 @@ export function PeoplePage() {
           })}
         </div>
       )}
+      <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
       <div className={styles.hint}>Tap a person to deactivate or reactivate them.</div>
       <ConfirmDialog
         open={isConfirmOpen}
