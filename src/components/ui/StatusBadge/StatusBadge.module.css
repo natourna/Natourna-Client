@@ -1,0 +1,25 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: var(--radius-pill);
+  font-size: 15px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.paid {
+  background: var(--color-primary-soft);
+  color: var(--color-primary-dark);
+}
+
+.due {
+  background: var(--color-warning-bg);
+  color: var(--color-warning);
+}
+
+.overdue {
+  background: var(--color-danger-bg);
+  color: var(--color-danger);
+}
