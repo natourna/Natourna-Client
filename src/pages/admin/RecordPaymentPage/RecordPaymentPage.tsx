@@ -31,6 +31,7 @@ export function RecordPaymentPage() {
           value={form.apartmentId}
           onChange={form.setApartmentId}
           placeholder="Choose an apartment"
+          error={form.fieldErrors.apartmentId}
           options={form.apartments.map((apartment) => ({
             value: apartment.id,
             label: `${apartment.apartmentInfo} · ${apartment.owner}`,
@@ -41,12 +42,13 @@ export function RecordPaymentPage() {
           value={form.label}
           onChange={form.setLabel}
           placeholder="August dues"
+          error={form.fieldErrors.label}
         />
         <div className={styles.field}>
           <span className={styles.fieldLabel}>Amount</span>
           <AmountStepper label="Amount" value={form.amount} onChange={form.setAmount} />
         </div>
-        <DateField label="Due date" value={form.dueDate} onChange={form.setDueDate} />
+        <DateField label="Due date" value={form.dueDate} onChange={form.setDueDate} error={form.fieldErrors.dueDate} />
         <AllocationEditor
           title="Where does the money go?"
           balances={form.balances}
