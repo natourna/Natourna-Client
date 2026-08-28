@@ -1,7 +1,7 @@
-import { useCallback, useMemo, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useMemo, useState, type ReactNode } from "react";
 import type { AuthSession } from "../types/auth";
 import type { User } from "../types/user";
-import { authService, userService } from "../services";
+import { authService, setAuthToken, setUnauthorizedHandler } from "../services";
 import { AuthContext } from "./authContext";
 
 interface StoredAuth {
@@ -27,20 +27,30 @@ function readStoredAuth(): StoredAuth | null {
 }
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [auth, setAuth] = useState<StoredAuth | null>(readStoredAuth);
+  const [auth, setAuth] = useState<StoredAuth | null>(() => {
+    const stored = readStoredAuth();
+    setAuthToken(stored?.session.token ?? null);
+    return stored;
+  });
 
   const login = useCallback(async (email: string, password: string) => {
-    const session = await authService.login(email, password);
-    const user = await userService.getCurrentUser();
+    const { session, user } = await authService.login(email, password);
+    setAuthToken(session.token);
     const next = { session, user };
     localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
     setAuth(next);
   }, []);
 
   const logout = useCallback(() => {
+    setAuthToken(null);
     localStorage.removeItem(STORAGE_KEY);
     setAuth(null);
   }, []);
+
+  useEffect(() => {
+    setUnauthorizedHandler(logout);
+    return () => setUnauthorizedHandler(null);
+  }, [logout]);
 
   const value = useMemo(
     () => ({
