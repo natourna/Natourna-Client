@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from "react";
 import type { Balance } from "../types/balance";
-import { apartmentService, balanceService, billService, paymentService } from "../services";
+import { balanceService, billService, paymentService } from "../services";
 import { useAsyncData } from "./useAsyncData";
 
 export interface FundActivityEntry {
@@ -20,38 +20,34 @@ const ACTIVITY_LIMIT = 5;
 
 export function useFunds() {
   const loader = useCallback(async () => {
-    const [balances, payments, bills, apartments] = await Promise.all([
+    const [balances, paidPayments, paidBills] = await Promise.all([
       balanceService.getBalances(),
-      paymentService.getPayments(),
-      billService.getBills(),
-      apartmentService.getApartments(),
+      paymentService.getAllPayments({ isPaid: true }),
+      billService.getAllBills({ isPaid: true }),
     ]);
-    return { balances, payments, bills, apartments };
+    return { balances, paidPayments, paidBills };
   }, []);
 
   const { data, isLoading, error, reload } = useAsyncData(loader);
 
   const funds = useMemo<FundView[]>(() => {
     if (!data) return [];
-    const apartmentLabel = (apartmentId: string) =>
-      data.apartments.find((apartment) => apartment.id === apartmentId)?.apartmentInfo ?? "—";
-
     return data.balances.map((balance) => {
-      const incoming: FundActivityEntry[] = data.payments
-        .filter((payment) => payment.isPaid && payment.paymentDate)
+      const incoming: FundActivityEntry[] = data.paidPayments
+        .filter((payment) => payment.paymentDate)
         .flatMap((payment) =>
           payment.allocations
             .filter((allocation) => allocation.balanceId === balance.id)
             .map((allocation) => ({
               id: `${payment.id}-${balance.id}`,
-              label: `${apartmentLabel(payment.apartmentId)} ${payment.label}`,
+              label: `${payment.apartmentInfo} ${payment.label}`,
               date: payment.paymentDate ?? "",
               amount: allocation.allocatedAmount,
               direction: "in" as const,
             })),
         );
-      const outgoing: FundActivityEntry[] = data.bills
-        .filter((bill) => bill.isPaid && bill.paymentDate && bill.balanceId === balance.id)
+      const outgoing: FundActivityEntry[] = data.paidBills
+        .filter((bill) => bill.paymentDate && bill.balanceId === balance.id)
         .map((bill) => ({
           id: bill.id,
           label: bill.label,

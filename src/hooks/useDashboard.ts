@@ -1,5 +1,5 @@
 import { useCallback, useMemo } from "react";
-import { apartmentService, balanceService, billService, compoundService, paymentService } from "../services";
+import { balanceService, billService, compoundService, paymentService } from "../services";
 import { todayIso } from "../utils/date";
 import { monthlyDues } from "../utils/monthlyDues";
 import { paymentStatus } from "../utils/paymentStatus";
@@ -8,14 +8,13 @@ import type { PaymentRow } from "./usePayments";
 
 export function useDashboard() {
   const loader = useCallback(async () => {
-    const [compound, balances, payments, bills, apartments] = await Promise.all([
+    const [compound, balances, payments, unpaidBills] = await Promise.all([
       compoundService.getCompound(),
       balanceService.getBalances(),
-      paymentService.getPayments(),
-      billService.getBills(),
-      apartmentService.getApartments(),
+      paymentService.getAllPayments(),
+      billService.getAllBills({ isPaid: false }),
     ]);
-    return { compound, balances, payments, bills, apartments };
+    return { compound, balances, payments, unpaidBills };
   }, []);
 
   const { data, isLoading, error, reload } = useAsyncData(loader);
@@ -24,21 +23,18 @@ export function useDashboard() {
     if (!data) return null;
     const today = todayIso();
 
-    const apartmentLabel = (apartmentId: string) =>
-      data.apartments.find((apartment) => apartment.id === apartmentId)?.apartmentInfo ?? "—";
-
     const overdueRows: PaymentRow[] = data.payments
       .filter((payment) => paymentStatus(payment, today) === "overdue")
       .map((payment) => ({
         payment,
-        apartmentLabel: apartmentLabel(payment.apartmentId),
+        apartmentLabel: payment.apartmentInfo,
         status: "overdue" as const,
       }))
       .sort((a, b) => a.payment.dueDate.localeCompare(b.payment.dueDate));
 
-    const unpaidBills = data.bills
-      .filter((bill) => !bill.isPaid)
-      .sort((a, b) => a.dueDate.localeCompare(b.dueDate));
+    const unpaidBills = [...data.unpaidBills].sort((a, b) =>
+      a.dueDate.localeCompare(b.dueDate),
+    );
 
     return {
       compound: data.compound,

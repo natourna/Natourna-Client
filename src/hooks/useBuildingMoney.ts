@@ -7,13 +7,13 @@ const EXPENSES_LIMIT = 5;
 
 export function useBuildingMoney() {
   const loader = useCallback(async () => {
-    const [compound, balances, payments, bills] = await Promise.all([
+    const [compound, balances, payments, paidBills] = await Promise.all([
       compoundService.getCompound(),
       balanceService.getBalances(),
-      paymentService.getPayments(),
-      billService.getBills(),
+      paymentService.getAllPayments(),
+      billService.getAllBills({ isPaid: true }),
     ]);
-    return { compound, balances, payments, bills };
+    return { compound, balances, payments, paidBills };
   }, []);
 
   const { data, isLoading, error, reload } = useAsyncData(loader);
@@ -25,8 +25,8 @@ export function useBuildingMoney() {
       balances: data.balances,
       totalFunds: data.balances.reduce((sum, balance) => sum + balance.currentAmount, 0),
       dues: monthlyDues(data.payments, new Date()),
-      recentExpenses: data.bills
-        .filter((bill) => bill.isPaid && bill.paymentDate)
+      recentExpenses: data.paidBills
+        .filter((bill) => bill.paymentDate)
         .sort((a, b) => (b.paymentDate ?? "").localeCompare(a.paymentDate ?? ""))
         .slice(0, EXPENSES_LIMIT),
     };

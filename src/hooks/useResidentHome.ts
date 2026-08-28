@@ -13,7 +13,7 @@ export function useResidentHome() {
 
   const loader = useCallback(async () => {
     if (!username) return null;
-    const apartments = await apartmentService.getApartments();
+    const apartments = await apartmentService.getAllApartments();
     const apartment = findApartmentForUser(apartments, username);
     if (!apartment) return { apartment: null, payments: [] };
     const payments = await paymentService.getPaymentsByApartment(apartment.id);
