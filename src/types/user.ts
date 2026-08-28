@@ -8,4 +8,6 @@ export interface User {
   isActive: boolean;
 }
 
-export type UserInput = Pick<User, "email" | "phoneNumber" | "role">;
+export type UserInput = Pick<User, "email" | "phoneNumber" | "role"> & {
+  password: string;
+};

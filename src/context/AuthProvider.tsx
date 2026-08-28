@@ -2,6 +2,7 @@ import { useCallback, useMemo, useState, type ReactNode } from "react";
 import type { AuthSession } from "../types/auth";
 import type { User } from "../types/user";
 import { authService, userService } from "../services";
+import { tokenStore } from "../services/tokenStore";
 import { AuthContext } from "./authContext";
 
 interface StoredAuth {
@@ -20,6 +21,7 @@ function readStoredAuth(): StoredAuth | null {
       localStorage.removeItem(STORAGE_KEY);
       return null;
     }
+    tokenStore.set(stored.session.token);
     return stored;
   } catch {
     return null;
@@ -39,6 +41,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const logout = useCallback(() => {
     localStorage.removeItem(STORAGE_KEY);
+    tokenStore.set(null);
     setAuth(null);
   }, []);
 
