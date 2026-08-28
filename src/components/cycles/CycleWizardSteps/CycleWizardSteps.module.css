@@ -1,0 +1,182 @@
+.stepBody {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.fieldLabel {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-text-label);
+}
+
+.frequencyGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.frequencyOption {
+  height: 54px;
+  border: 2px solid var(--color-border-input);
+  border-radius: var(--radius-input);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 17px;
+  font-weight: 600;
+  background: var(--color-surface);
+  color: var(--color-ink);
+  cursor: pointer;
+}
+
+.frequencySelected {
+  border-color: var(--color-primary);
+  background: var(--color-primary-soft);
+  color: var(--color-primary-dark);
+  font-weight: 700;
+}
+
+.dateRow {
+  display: flex;
+  gap: 10px;
+}
+
+.dateRow > * {
+  flex: 1;
+}
+
+.amountStep {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  padding-top: 24px;
+  text-align: center;
+}
+
+.amountLabel {
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--color-text-label);
+}
+
+.amountHint {
+  font-size: 17px;
+  color: var(--color-text-secondary);
+}
+
+.checkbox {
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  border: 2px solid var(--color-border-input);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-inverse);
+  flex-shrink: 0;
+}
+
+.checkboxOn {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.allRow {
+  background: var(--color-surface);
+  border: 2px solid var(--color-border-input);
+  border-radius: var(--radius-button);
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.allRowSelected {
+  background: var(--color-primary-soft);
+  border-color: var(--color-primary);
+}
+
+.allLabel {
+  flex: 1;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-primary-dark);
+  text-align: left;
+}
+
+.allCount {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-primary-dark);
+}
+
+.apartmentList {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-card);
+  border-radius: var(--radius-button);
+  padding: 4px 18px;
+  display: flex;
+  flex-direction: column;
+}
+
+.apartmentRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 0;
+  font-size: 17px;
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--color-divider-soft);
+  cursor: pointer;
+  text-align: left;
+  color: var(--color-ink);
+  min-height: 52px;
+}
+
+.apartmentRow:last-child {
+  border-bottom: none;
+}
+
+.summaryCard {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-card);
+  border-radius: var(--radius-card);
+  padding: 22px;
+  font-size: 19px;
+  line-height: 1.6;
+}
+
+.summaryFacts {
+  background: var(--color-surface-subtle);
+  border-radius: var(--radius-button);
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 16px;
+  color: var(--color-text-label);
+}
+
+.summaryFact {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.summaryNote {
+  font-size: 16px;
+  color: var(--color-text-secondary);
+  text-align: center;
+}
