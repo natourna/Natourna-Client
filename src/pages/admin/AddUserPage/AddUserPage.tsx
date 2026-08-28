@@ -22,6 +22,13 @@ export function AddUserPage() {
       >
         <TextField label="Email" type="email" value={form.email} onChange={form.setEmail} />
         <TextField
+          label="Password"
+          type="password"
+          value={form.password}
+          onChange={form.setPassword}
+          autoComplete="new-password"
+        />
+        <TextField
           label="Phone number"
           type="tel"
           value={form.phoneNumber}
