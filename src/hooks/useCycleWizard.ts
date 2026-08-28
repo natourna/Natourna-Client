@@ -1,6 +1,7 @@
 import { useCallback, useState } from "react";
 import type { PaymentAllocationInput } from "../types/payment";
 import type { PaymentCycle } from "../types/cycle";
+import { cycleInputSchema } from "../schemas/cycle";
 import { apartmentService, balanceService, cycleService, toErrorMessage } from "../services";
 import { periodDueDates } from "../utils/paymentSchedule";
 import { totalPercentage } from "../utils/percentage";
@@ -11,7 +12,7 @@ export const TOTAL_WIZARD_STEPS = 5;
 export function useCycleWizard() {
   const loader = useCallback(async () => {
     const [apartments, balances] = await Promise.all([
-      apartmentService.getApartments(),
+      apartmentService.getAllApartments(),
       balanceService.getBalances(),
     ]);
     return { apartments, balances };
@@ -65,18 +66,23 @@ export function useCycleWizard() {
   })();
 
   const submit = async () => {
+    const parsed = cycleInputSchema.safeParse({
+      label: label.trim(),
+      paymentCycle,
+      startDate,
+      endDate,
+      amount,
+      balanceAllocations: allocations,
+      apartmentIds: selectedIds,
+    });
+    if (!parsed.success) {
+      setSubmitError(parsed.error.issues[0]?.message ?? "Please check the form.");
+      return;
+    }
     setIsSubmitting(true);
     setSubmitError(null);
     try {
-      await cycleService.createCycle({
-        label: label.trim(),
-        paymentCycle,
-        startDate,
-        endDate,
-        amount,
-        balanceAllocations: allocations,
-        apartmentIds: selectedIds,
-      });
+      await cycleService.createCycle(parsed.data);
       setStep(6);
     } catch (cause) {
       setSubmitError(toErrorMessage(cause));

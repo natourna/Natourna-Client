@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { loginInputSchema } from "../schemas/auth";
 import { useAuth } from "./useAuth";
 import { toErrorMessage } from "../services";
 
@@ -10,14 +11,15 @@ export function useLoginForm() {
   const [error, setError] = useState<string | null>(null);
 
   const submit = async () => {
-    if (email.trim() === "" || password === "") {
-      setError("Please enter your email and password.");
+    const parsed = loginInputSchema.safeParse({ email, password });
+    if (!parsed.success) {
+      setError(parsed.error.issues[0]?.message ?? "Please enter your email and password.");
       return;
     }
     setIsSubmitting(true);
     setError(null);
     try {
-      await login(email, password);
+      await login(parsed.data.email, parsed.data.password);
     } catch (cause) {
       setError(toErrorMessage(cause));
       setIsSubmitting(false);

@@ -1,9 +1,9 @@
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { PaymentAllocationInput } from "../types/payment";
+import { paymentInputSchema } from "../schemas/payment";
 import { apartmentService, balanceService, cycleService, paymentService, toErrorMessage } from "../services";
 import { todayIso } from "../utils/date";
-import { totalPercentage } from "../utils/percentage";
 import { useAsyncData } from "./useAsyncData";
 
 export function useRecordPayment() {
@@ -11,7 +11,7 @@ export function useRecordPayment() {
 
   const loader = useCallback(async () => {
     const [apartments, balances, activeCycle] = await Promise.all([
-      apartmentService.getApartments(),
+      apartmentService.getAllApartments(),
       balanceService.getBalances(),
       cycleService.getActiveCycle(),
     ]);
@@ -30,25 +30,25 @@ export function useRecordPayment() {
 
   const allocations = editedAllocations ?? data?.activeCycle?.balanceAllocations ?? [];
 
-  const isValid =
-    apartmentId !== "" &&
-    label.trim() !== "" &&
-    amount > 0 &&
-    dueDate !== "" &&
-    totalPercentage(allocations.map((allocation) => allocation.percentage)) === 100;
+  const parsed = paymentInputSchema.safeParse({
+    apartmentId,
+    label: label.trim(),
+    amount,
+    dueDate,
+    allocations,
+  });
+
+  const isValid = parsed.success;
 
   const submit = async () => {
-    if (!isValid) return;
+    if (!parsed.success) {
+      setSubmitError(parsed.error.issues[0]?.message ?? "Please check the form.");
+      return;
+    }
     setIsSubmitting(true);
     setSubmitError(null);
     try {
-      await paymentService.createPayment({
-        apartmentId,
-        label: label.trim(),
-        amount,
-        dueDate,
-        allocations,
-      });
+      await paymentService.createPayment(parsed.data);
       navigate("/payments");
     } catch (cause) {
       setSubmitError(toErrorMessage(cause));

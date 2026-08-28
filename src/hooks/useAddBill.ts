@@ -1,5 +1,6 @@
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { billInputSchema } from "../schemas/bill";
 import { balanceService, billService, toErrorMessage } from "../services";
 import { todayIso } from "../utils/date";
 import { useAsyncData } from "./useAsyncData";
@@ -22,14 +23,21 @@ export function useAddBill() {
     selectedBalance !== null && amount > 0 && selectedBalance.currentAmount < amount;
   const canCover = selectedBalance !== null && amount > 0 && !cannotCover;
 
-  const isValid = label.trim() !== "" && dueDate !== "" && canCover;
+  const parsed = billInputSchema.safeParse({
+    label: label.trim(),
+    amount,
+    dueDate,
+    balanceId: balanceId ?? "",
+  });
+
+  const isValid = parsed.success && canCover;
 
   const submit = async () => {
-    if (!isValid || balanceId === null) return;
+    if (!parsed.success || !canCover) return;
     setIsSubmitting(true);
     setSubmitError(null);
     try {
-      await billService.createBill({ label: label.trim(), amount, dueDate, balanceId });
+      await billService.createBill(parsed.data);
       navigate("/bills");
     } catch (cause) {
       setSubmitError(toErrorMessage(cause));

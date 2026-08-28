@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { apartmentInputSchema } from "../schemas/apartment";
 import { apartmentService, buildingService, toErrorMessage } from "../services";
 import { useAsyncData } from "./useAsyncData";
 
@@ -35,30 +36,30 @@ export function useApartmentForm(apartmentId: string | null) {
     setIsActive(data.apartment.isActive);
   }, [data]);
 
-  const isValid =
-    apartmentInfo.trim() !== "" &&
-    floor.trim() !== "" &&
-    buildingId !== "" &&
-    owner.trim() !== "";
+  const parsed = apartmentInputSchema.safeParse({
+    apartmentInfo: apartmentInfo.trim(),
+    floor: floor.trim(),
+    buildingId,
+    owner: owner.trim(),
+    tenant: tenant.trim() === "" ? null : tenant.trim(),
+    isActive,
+  });
+
+  const isValid = parsed.success;
 
   const submit = async () => {
-    if (!isValid) return;
+    if (!parsed.success) {
+      setSubmitError(parsed.error.issues[0]?.message ?? "Please check the form.");
+      return;
+    }
     setIsSubmitting(true);
     setSubmitError(null);
-    const input = {
-      apartmentInfo: apartmentInfo.trim(),
-      floor: floor.trim(),
-      buildingId,
-      owner: owner.trim(),
-      tenant: tenant.trim() === "" ? null : tenant.trim(),
-      isActive,
-    };
     try {
       if (apartmentId) {
-        await apartmentService.updateApartment(apartmentId, input);
+        await apartmentService.updateApartment(apartmentId, parsed.data);
         navigate(`/apartments/${apartmentId}`);
       } else {
-        const created = await apartmentService.createApartment(input);
+        const created = await apartmentService.createApartment(parsed.data);
         navigate(`/apartments/${created.id}`);
       }
     } catch (cause) {
