@@ -1,0 +1,39 @@
+.row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 0;
+  min-height: 56px;
+}
+
+.row + .row {
+  border-top: 1px solid var(--color-divider);
+}
+
+.linkRow {
+  text-decoration: none;
+  color: inherit;
+  font-weight: 400;
+}
+
+.text {
+  flex: 1;
+  min-width: 0;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-ink);
+}
+
+.subtitle {
+  font-size: 16px;
+  color: var(--color-text-secondary);
+  margin-top: 2px;
+}
+
+.chevron {
+  color: var(--color-text-placeholder);
+  flex-shrink: 0;
+}
