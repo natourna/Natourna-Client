@@ -1,0 +1,117 @@
+.columns {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
+.totalCard {
+  background: var(--color-primary);
+  border-radius: var(--radius-card-lg);
+  padding: 22px;
+  color: var(--color-inverse);
+}
+
+.totalLabel {
+  font-size: 17px;
+  font-weight: 600;
+  opacity: 0.85;
+}
+
+.totalAmount {
+  font-size: 44px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  margin-top: 2px;
+}
+
+.fundList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.fundRow {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-card);
+  border-radius: var(--radius-row);
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.fundName {
+  flex: 1;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.fundAmount {
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.duesCard {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.duesTitle {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.duesNote {
+  font-size: 16px;
+  color: var(--color-text-secondary);
+}
+
+.sectionTitle {
+  font-size: 20px;
+  font-weight: 800;
+  margin-top: 4px;
+}
+
+.expensesCard {
+  padding: 6px 18px;
+}
+
+.expenseLabel {
+  font-size: 17px;
+}
+
+.expenseAmount {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--color-danger);
+}
+
+.footerNote {
+  font-size: 16px;
+  color: var(--color-text-secondary);
+  text-align: center;
+  line-height: 1.6;
+  margin-top: auto;
+  padding-top: 16px;
+}
+
+@media (min-width: 1024px) {
+  .columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    align-items: start;
+  }
+
+  .sectionTitle {
+    margin-top: 0;
+  }
+}

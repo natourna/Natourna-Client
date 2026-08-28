@@ -1,0 +1,230 @@
+.headerRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.headerText {
+  flex: 1;
+  min-width: 0;
+}
+
+.title {
+  font-size: 27px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+}
+
+.subtitle {
+  font-size: 17px;
+  color: var(--color-text-secondary);
+  margin-top: 4px;
+}
+
+.logout {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-chip);
+  border: none;
+  background: transparent;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.columns {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.mainColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  min-width: 0;
+}
+
+.oweCard {
+  border-radius: var(--radius-hero);
+  padding: 28px 24px;
+  text-align: center;
+}
+
+.oweLabel {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--color-text-label);
+  margin-top: 18px;
+}
+
+.oweAmount {
+  font-size: 64px;
+  font-weight: 800;
+  letter-spacing: -2px;
+  line-height: 1.1;
+}
+
+.oweFor {
+  font-size: 19px;
+  color: var(--color-text-secondary);
+  margin-top: 6px;
+}
+
+.oweNote {
+  border-top: 1px solid var(--color-divider);
+  margin-top: 22px;
+  padding-top: 18px;
+  font-size: 17px;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+.paidUpCard {
+  border-radius: var(--radius-hero);
+  padding: 36px 24px;
+  text-align: center;
+}
+
+.paidUpCircle {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.paidUpTitle {
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  margin-top: 20px;
+}
+
+.paidUpSubtitle {
+  font-size: 19px;
+  color: var(--color-text-secondary);
+  margin-top: 8px;
+}
+
+.sectionTitle {
+  font-size: 20px;
+  font-weight: 800;
+  margin-top: 4px;
+}
+
+.buildingLinkCard {
+  padding: 4px 18px;
+}
+
+.buildingIcon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-input);
+  background: var(--color-primary-soft);
+  color: var(--color-primary-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.sideColumn {
+  display: none;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.fundsCard {
+  background: var(--color-primary);
+  border-radius: var(--radius-card-lg);
+  padding: 26px;
+  color: var(--color-inverse);
+}
+
+.fundsLabel {
+  font-size: 17px;
+  font-weight: 600;
+  opacity: 0.85;
+}
+
+.fundsTotal {
+  font-size: 42px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  margin-top: 4px;
+}
+
+.fundsList {
+  border-top: 1px solid rgba(255, 255, 255, 0.25);
+  margin-top: 18px;
+  padding-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 17px;
+}
+
+.fundsRow {
+  display: flex;
+  justify-content: space-between;
+}
+
+.fundsName {
+  opacity: 0.85;
+}
+
+.expensesCard {
+  padding: 10px 26px 16px;
+}
+
+.expensesTitle {
+  font-size: 19px;
+  font-weight: 800;
+  padding: 12px 0 4px;
+}
+
+.expenseLabel {
+  font-size: 17px;
+}
+
+.expenseAmount {
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--color-danger);
+}
+
+@media (min-width: 1024px) {
+  .logout {
+    display: none;
+  }
+
+  .columns {
+    display: grid;
+    grid-template-columns: 1.35fr 1fr;
+    gap: 24px;
+    align-items: start;
+  }
+
+  .sideColumn {
+    display: flex;
+  }
+
+  .buildingLinkCard {
+    display: none;
+  }
+
+  .oweCard {
+    padding: 40px;
+  }
+
+  .oweAmount {
+    font-size: 72px;
+  }
+}

@@ -1,0 +1,1 @@
+export { BuildingMoneyPage } from "./BuildingMoneyPage";
