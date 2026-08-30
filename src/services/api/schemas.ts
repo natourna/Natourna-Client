@@ -109,6 +109,7 @@ export const paymentSchema = z.object({
   dueDate: nullableDateOnly.transform((value) => value ?? ""),
   isPaid: z.boolean(),
   apartmentId: idToString,
+  apartmentInfo: nullableToEmpty,
   apartmentOwner: nullableToEmpty,
   apartmentTenant: z.string().nullable(),
   cycleId: nullableIdToString,

@@ -2,7 +2,7 @@ import { useCallback, useState } from "react";
 import type { PagedResult } from "../types/paged";
 import { useAsyncData } from "./useAsyncData";
 
-const DEFAULT_PAGE_SIZE = 20;
+const DEFAULT_PAGE_SIZE = 5;
 
 export function usePagedData<T>(
   loader: (page: number, pageSize: number) => Promise<PagedResult<T>>,

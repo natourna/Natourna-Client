@@ -10,6 +10,18 @@ export const apiPaymentService: PaymentService = {
     return fetchAllPages((page, pageSize) => request("/Payment", pagedPaymentsSchema, { query: { page, pageSize } }));
   },
 
+  getUnpaidPayments() {
+    return fetchAllPages((page, pageSize) =>
+      request("/Payment", pagedPaymentsSchema, { query: { page, pageSize, isPaid: false } }),
+    );
+  },
+
+  getPaymentsPage(page, pageSize, filters) {
+    return request("/Payment", pagedPaymentsSchema, {
+      query: { page, pageSize, isPaid: filters.isPaid, overdue: filters.overdue },
+    });
+  },
+
   getPaymentsByApartment(apartmentId) {
     return fetchAllPages((page, pageSize) =>
       request(`/Payment/apartment/${apartmentId}`, pagedPaymentsSchema, { query: { page, pageSize } }),

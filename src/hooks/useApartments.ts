@@ -38,7 +38,7 @@ export function useApartments() {
     async (page: number, pageSize: number) => {
       const [apartments, payments] = await Promise.all([
         apartmentService.getApartmentsPage(page, pageSize, debouncedSearch),
-        paymentService.getPayments(),
+        paymentService.getUnpaidPayments(),
       ]);
       const today = todayIso();
       const items = apartments.items.map((apartment) => ({
