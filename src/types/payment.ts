@@ -12,6 +12,7 @@ export interface Payment {
   dueDate: string;
   isPaid: boolean;
   apartmentId: string;
+  apartmentInfo: string;
   apartmentOwner: string;
   apartmentTenant: string | null;
   cycleId: string | null;
